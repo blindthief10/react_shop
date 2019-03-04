@@ -4,6 +4,7 @@ import StandardNav from './components/StandardNav.js';
 import Home from './components/Home';
 import Basket from './components/Basket';
 import Products from './components/Products';
+import Confirm from './components/Confirm';
 
 export default class App extends Component {
   render() {
@@ -15,6 +16,7 @@ export default class App extends Component {
             <Route path="/" exact component={Home} />
             <Route path="/basket" component={Basket}/>
             <Route path="/products" component={Products}/>
+            <Route path="/confirmation" component={Confirm} />
           </div>
         </div>
       </BrowserRouter>
