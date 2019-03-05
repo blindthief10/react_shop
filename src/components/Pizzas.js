@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { pizzasInfo } from '../config/info';
 import { connect } from 'react-redux';
-import { change } from '../redux/redux';
+import { change, increment } from '../redux/redux';
 
 class Pizzas extends Component {
   render() {
@@ -13,7 +13,9 @@ class Pizzas extends Component {
             return (
               <div className="container" key={index}>
                 <h4 className="title">{pizza.productName}</h4>
-                <button>-</button><input type="text" onChange={this.props.changeValue} identity={index} value={this.props['pizzaValue'+index]}/><button>+</button>
+                <button>-</button>
+                <input type="text" onChange={this.props.changeValue} identity={index} value={this.props['pizzaValue'+index]}/>
+                <button onClick={this.props.increment} identity={index}>+</button>
                 <br />
                 <div className="mt-3">
                   <button className="btn btn-success">Add to Order</button><span><strong>&nbsp;{pizza.price}$</strong></span>
@@ -39,7 +41,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeValue: ev => dispatch(change(ev))
+    changeValue: ev => dispatch(change(ev)),
+    increment: ev => dispatch(increment(ev))
   }
 }
 
