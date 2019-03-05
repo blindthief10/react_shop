@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { pizzasInfo } from '../config/info';
+import { connect } from 'react-redux';
+import { change } from '../redux/redux';
 
-export default class Pizzas extends Component {
+class Pizzas extends Component {
   render() {
     return (
       <>
@@ -10,8 +12,8 @@ export default class Pizzas extends Component {
         {pizzasInfo.map((pizza, index) => {
             return (
               <div className="container" key={index}>
-                <h4 className="title" identifier={pizza.productName}>{pizza.productName}</h4>
-                <button>-</button><input type="text" /><button>+</button>
+                <h4 className="title">{pizza.productName}</h4>
+                <button>-</button><input type="text" onChange={this.props.changeValue} identity={index} value={this.props['pizzaValue'+index]}/><button>+</button>
                 <br />
                 <div className="mt-3">
                   <button className="btn btn-success">Add to Order</button><span><strong>&nbsp;{pizza.price}$</strong></span>
@@ -26,3 +28,19 @@ export default class Pizzas extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    pizzaValue0: state.pizzaValues[0],
+    pizzaValue1: state.pizzaValues[1],
+    pizzaValue2: state.pizzaValues[2]
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeValue: ev => dispatch(change(ev))
+  }
+}
+
+export const PizzaContainer = connect(mapStateToProps, mapDispatchToProps)(Pizzas)

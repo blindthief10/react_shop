@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import Pizzas from './Pizzas';
+import {PizzaContainer} from './Pizzas';
 import Salads from './Salads';
 import Burgers from './Burgers';
 
@@ -34,7 +34,7 @@ export default class Products extends Component {
       <>
         <ProductLinks />
         <Route path="/products" exact component={ProductPage} />
-        <Route path="/products/pizzas" component={Pizzas} />
+        <Route path="/products/pizzas" component={PizzaContainer} />
         <Route path="/products/burgers" component={Burgers}/>
         <Route path="/products/salads" component={Salads}/>
       </>
