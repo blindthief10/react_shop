@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { pizzasInfo } from '../config/info';
 import { connect } from 'react-redux';
-import { change, increment } from '../redux/redux';
+import { change, increment, addToOrder } from '../redux/redux';
 
 class Pizzas extends Component {
   render() {
@@ -18,7 +18,7 @@ class Pizzas extends Component {
                 <button onClick={this.props.increment} identity={index}>+</button>
                 <br />
                 <div className="mt-3">
-                  <button className="btn btn-success">Add to Order</button><span><strong>&nbsp;{pizza.price}$</strong></span>
+                  <button buttoncounter={index} product={pizza.productName} price={pizza.price} className="btn btn-success" onClick={this.props.addToOrder}>Add to Order</button><span><strong>&nbsp;{pizza.price}$</strong></span>
                 </div>
                 <hr />
               </div>
@@ -42,7 +42,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     changeValue: ev => dispatch(change(ev)),
-    increment: ev => dispatch(increment(ev))
+    increment: ev => dispatch(increment(ev)),
+    addToOrder: ev => dispatch(addToOrder(ev))
   }
 }
 
