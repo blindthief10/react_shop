@@ -11,36 +11,29 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'changePizzaValue':
       const pizzaInputIdentity = action.event.target.getAttribute('identity');
-      updatedState.pizzaValues[pizzaInputIdentity] = parseInt(action.event.target.value);
+      // the value has to be always a string in an input field otherwise cannot be changed and throws error!
+      updatedState.pizzaValues[pizzaInputIdentity] = action.event.target.value;
       return updatedState;
     case 'pizzaIncrement':
       const buttonIncIdentity = action.event.target.getAttribute('identity');
-      updatedState.pizzaValues[buttonIncIdentity] = state.pizzaValues[buttonIncIdentity] + 1
+      // We want to increase though, thus it has to be parsed as a number before increasing, otherwise is concat operator
+      updatedState.pizzaValues[buttonIncIdentity] = parseInt(state.pizzaValues[buttonIncIdentity]) + 1
       return updatedState;
     case 'addPizza':
       const product = action.event.target.getAttribute('product');
       const price = parseFloat(action.event.target.getAttribute('price'));
-      const buttonIdentifer = parseInt(action.event.target.getAttribute('buttoncounter'));
-      let isIncluded = false;
+      const buttonIdentifier = parseInt(action.event.target.getAttribute('buttoncounter'));
 
-      for (let i=0; i < state.basket.length; i++) {
-        if (product === state.basket[i].product) {
-          isIncluded = true;
-          state.basket[i].quantity = state.pizzaValues[buttonIdentifer];
-          break;
-        }
-      }
+      // Try to find the item that already is in the basket if exists. No need for loop! Find method loops already.
+      const itemFound = updatedState.basket.find(item => item.product === product); // If found will return the object
+      // If not an empty object. {} which is a 'falsy' value. Thus itemFound can be used in an if statement directly.
 
-      // for (let item of state.basket) {
-      //   if (product === item.product) {
-      //     isIncluded = true;
-      //     item.quantity =  state.pizzaValues[buttonIdentifer];
-      //     break;
-      //   }
-      // }
-
-      if (!isIncluded) {
-        const pizzaObject = {product: product, price: price, quantity: state.pizzaValues[buttonIdentifer]};
+      if (itemFound) {
+        // Update only the quantity of this item (object)
+        itemFound.quantity = parseInt(updatedState.pizzaValues[buttonIdentifier]);
+      } else {
+        // push a new item with all the associated info within
+        const pizzaObject = {product: product, price: price, quantity: parseInt(updatedState.pizzaValues[buttonIdentifier])};
         updatedState.basket = [...state.basket, pizzaObject];
       }
 
